@@ -1,0 +1,28 @@
+<html>
+  <head>
+      <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+<div id="container">
+  <section class="left">
+  
+    <button class="top"  onclick="rearrange()">Shuffle Letters</button>
+    
+    <textarea id="shuffle">Cry, foe!  Run amok!  Fa awry!  My wand won’t tolerate this nonsense.</textarea>
+    
+    <button class="bottom" onclick="reset()">Reset</button>
+    
+  </section>
+  
+  <section class="right">
+  
+    <textarea id="scratchpad"></textarea>
+    
+    <button class="bottom" onclick="clear()">Clear</button>
+    
+  </section>
+  </div>
+  <script src="realWords.js"></script>
+  <script src="anagramSolver.js"></script>
+  </body>
+</html>

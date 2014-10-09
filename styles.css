@@ -1,0 +1,55 @@
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+#container {
+  width: 70%;
+  display: block;
+  position: relative;
+  margin: 0 auto;
+}
+
+.left {
+  display: inline-block;
+  width: 45%;
+}
+
+.right {
+  display: inline-block;
+  width: 45%;
+}
+
+#shuffle {
+  display: block;
+  width: 500px;
+  height: 300px;
+  margin: 0 auto;
+  font-size: 16px;
+}
+
+#scratchpad {
+  display: block;
+  width: 500px;
+  height: 350px;
+  margin: 0 auto;
+  font-size: 16px;
+  background: lightgoldenrodyellow;
+}
+
+button {
+  display: block;
+  width: 506px;
+  height: 50px;
+  margin: 0 auto;
+  font-size: 20px;
+}
+
+.top {
+  background: lightblue;
+}
+
+.bottom {
+  background: lightgray;
+  color: gray;
+}
