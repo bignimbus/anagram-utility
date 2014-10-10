@@ -76,13 +76,13 @@ function matchLetters ( wordOne, wordTwo ) {
 
 function dictionaryEntry () {
     'use strict';
-    var random = Math.floor( Math.random() * DictionaryEntry.length );
+    var random = Math.floor( Math.random() * window.realWords.length );
     return window.realWords[random];
 }
 
 function thisIsAWord ( word ) {
     'use strict';
-    if ( matchLetters( word, new DictionaryEntry() ) ) {
+    if ( matchLetters( word, dictionaryEntry() ) ) {
         return true;
     } else {
         return false;
