@@ -40,11 +40,11 @@ function wordLength ( maxLength ) {
 
 function makeAWord ( letters, wordLength ) {
     'use strict';
-    var letter, n, word = '',
+    var letter, n, word = [],
     scratch = letters;
     for ( n = 0; n < wordLength; n++ ) {
         letter = scratch[Math.floor( Math.random() * letters.length )];
-        word += letter;
+        word[n] = letter;
         scratch = letters.crossOut( letter );
     }
     if ( thisIsAWord( word ) ) {
@@ -56,6 +56,21 @@ function makeAWord ( letters, wordLength ) {
         makeAWord( letters, wordLength );
     }
     return;
+}
+
+function matchLetters ( wordOne, wordTwo ) {
+    'use strict';
+    if ( wordOne.length !== wordTwo.length ) {
+        return false;
+    } else {
+        for ( var n in wordOne ) {
+            if ( wordOne[n] !== wordTwo[n] ) {
+                return false;
+            } else {
+                continue;
+            }
+        }
+    }
 }
 
 function thisIsAWord ( word ) {
@@ -81,7 +96,7 @@ function rearrange () {
 function reset () {
     'use strict';
     var el = document.getElementById( 'shuffle' );
-    el.value = 'Cry, foe!  Run amok!  Fa awry!  My wand wonâ€™t tolerate this nonsense.';
+    el.value = 'Cry, foe!  Run amok!  Fa awry!  My wand won\'t tolerate this nonsense.';
 }
 
 function clear () {
