@@ -18,6 +18,18 @@ Array.prototype.crossOut = function ( usedLetter ) {
     return adjustedArray;
 };
 
+var DictionaryEntry = function randomEntry ( maxLength ) {
+    'use strict';
+    var random = Math.floor( Math.random() * window.realWords.length ),
+    entry = window.realWords[random];
+    if ( entry.length <= maxLength ) {
+        return entry;
+    } else {
+        randomEntry( maxLength );
+    }
+    return;
+};
+
 function Anagram () {
     'use strict';
     var el = document.getElementById( 'shuffle' );
@@ -28,74 +40,35 @@ function Anagram () {
     };
 }
 
-function wordLength ( maxLength ) {
+function makeThisWord ( realWord, letters ) {
     'use strict';
-    var random, lengths = [1, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 7, 8, 9];
-    if ( maxLength < 9 ) {
-        lengths = lengths.slice( 0, lengths.indexOf( maxLength ) + 1 );
-    }
-    random = Math.floor( Math.random() * lengths.length );
-    return lengths[random];
-}
-
-function makeAWord ( letters, wordLength ) {
-    'use strict';
-    var letter, n, word = [],
-    scratch = letters;
-    for ( n = 0; n < wordLength; n++ ) {
-        letter = scratch[Math.floor( Math.random() * letters.length )];
-        word[n] = letter;
-        scratch = letters.crossOut( letter );
-    }
-    if ( thisIsAWord( word ) ) {
-        return {
-            word: word,
-            lettersLeft: scratch
-        };
-    } else {
-        makeAWord( letters, wordLength );
-    }
-    return;
-}
-
-function matchLetters ( wordOne, wordTwo ) {
-    'use strict';
-    if ( wordOne.length !== wordTwo.length ) {
-        return false;
-    } else {
-        for ( var n in wordOne ) {
-            if ( wordOne[n] !== wordTwo[n] ) {
-                return false;
+    var scratch = letters;
+    for ( var n in realWord ) {
+        for ( var i in scratch ) {
+            if ( realWord[n] === scratch[i] ) {
+                scratch = scratch.crossOut( scratch[i] );
+                break;
             } else {
-                continue;
+                return false;
             }
         }
-        return true;
     }
-}
-
-function dictionaryEntry () {
-    'use strict';
-    var random = Math.floor( Math.random() * window.realWords.length );
-    return window.realWords[random];
-}
-
-function thisIsAWord ( word ) {
-    'use strict';
-    if ( matchLetters( word, dictionaryEntry() ) ) {
-        return true;
-    } else {
-        return false;
-    }
+    return scratch;
 }
 
 function rearrange () {
     'use strict';
-    var madeWord, anagram = new Anagram(), word = '';
+    var dictionaryEntry, lettersLeft,
+    anagram = new Anagram();
     while ( anagram.letters.length > 0 ) {
-        madeWord = makeAWord( anagram.letters, wordLength( anagram.letters.length ) );
-        anagram.letters = madeWord.lettersLeft;
-        anagram.rearranged += madeWord.word + ' ';
+        dictionaryEntry = new DictionaryEntry( anagram.letters.length );
+        lettersLeft = makeThisWord( dictionaryEntry, anagram.letters );
+        if ( lettersLeft ) {
+            anagram.letters = lettersLeft;
+            anagram.rearranged += dictionaryEntry.join('');
+        }
+        lettersLeft = null;
+        dictionaryEntry = null;
     }
     anagram.el.value = anagram.rearranged;
 }
