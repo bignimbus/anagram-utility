@@ -18,12 +18,6 @@ Array.prototype.crossOut = function ( usedLetter ) {
     return adjustedArray;
 };
 
-function DictionaryEntry () {
-    'use strict';
-    var random = Math.floor( Math.random() * DictionaryEntry.length );
-    return window.realWords[random];
-}
-
 function Anagram () {
     'use strict';
     var el = document.getElementById( 'shuffle' );
@@ -80,10 +74,15 @@ function matchLetters ( wordOne, wordTwo ) {
     }
 }
 
+function dictionaryEntry () {
+    'use strict';
+    var random = Math.floor( Math.random() * DictionaryEntry.length );
+    return window.realWords[random];
+}
+
 function thisIsAWord ( word ) {
     'use strict';
-    var dictionaryEntry = 
-    if ( matchLetters( word, dictionaryEntry ) ) {
+    if ( matchLetters( word, new DictionaryEntry() ) ) {
         return true;
     } else {
         return false;
