@@ -18,17 +18,18 @@ Array.prototype.crossOut = function ( usedLetter ) {
     return adjustedArray;
 };
 
-var DictionaryEntry = function randomEntry ( maxLength ) {
+function randomEntry ( maxLength ) {
     'use strict';
-    var random = Math.floor( Math.random() * window.realWords.length ),
-    entry = window.realWords[random];
-    if ( entry.length <= maxLength ) {
-        return entry;
-    } else {
-        randomEntry( maxLength );
+    var random, entry, n;
+    for ( n = 0; n < 200; n++ ) {
+        random= Math.floor( Math.random() * window.realWords.length );
+        entry = window.realWords[random];
+        if ( entry.length <= maxLength ) {
+            return entry;
+        }
     }
-    return;
-};
+    return 'a';
+}
 
 function Anagram () {
     'use strict';
@@ -57,19 +58,28 @@ function makeThisWord ( realWord, letters ) {
 }
 
 function rearrange () {
+    // TODO
+    // repeat timer
     'use strict';
     var dictionaryEntry, lettersLeft,
-    anagram = new Anagram();
-    while ( anagram.letters.length > 0 ) {
-        dictionaryEntry = new DictionaryEntry( anagram.letters.length );
+    anagram = new Anagram(),
+    timer = setTimeout( function () {
+        dictionaryEntry = randomEntry( anagram.letters.length );
+        console.log('found a word');
         lettersLeft = makeThisWord( dictionaryEntry, anagram.letters );
-        if ( lettersLeft ) {
+        console.log('checking the word');
+        if ( !!lettersLeft ) {
             anagram.letters = lettersLeft;
-            anagram.rearranged += dictionaryEntry.join('');
+            anagram.rearranged += dictionaryEntry.join('') + ' ';
+            console.log('********found a word: ' + anagram.rearranged);
         }
         lettersLeft = null;
         dictionaryEntry = null;
-    }
+        if ( anagram.letters.length === 0 ) {
+            clearTimeout( timer );
+        }
+        console.log('starting over');
+    }, 500);
     anagram.el.value = anagram.rearranged;
 }
 
