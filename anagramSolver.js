@@ -93,7 +93,7 @@ function rearrange () {
             clearInterval( window.timer );
             alert('anagram solved!');
         }
-    }, 10);
+    }, 5);
 }
 
 function reset () {
