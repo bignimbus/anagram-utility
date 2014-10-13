@@ -84,14 +84,14 @@ function rearrange () {
         lettersLeft = null;
         dictionaryEntry = null;
         if ( anagram.count > 15000 ) {
-            anagram.rearranged += anagram.letters.join('');
-            anagram.output.value = '(' + anagram.rearranged + ')';
+            anagram.rearranged += '(' + anagram.letters.join('') + ')';
+            anagram.output.value = anagram.rearranged;
             anagram.letters = [];
         }
         anagram.count += 1;
         if ( anagram.letters.length === 0 ) {
             clearInterval( window.timer );
-            alert('anagram solved!');
+            alert( 'anagram solved! ');
         }
     }, 5);
 }
