@@ -71,6 +71,7 @@ function rearrange () {
     'use strict';
     var dictionaryEntry, lettersLeft,
     anagram = new Anagram();
+    anagram.count = 0;
     window.timer = setInterval( function () {
         dictionaryEntry = randomEntry( anagram.letters.length );
         lettersLeft = makeThisWord( dictionaryEntry, anagram.letters );
@@ -78,9 +79,16 @@ function rearrange () {
             anagram.letters = lettersLeft;
             anagram.rearranged += dictionaryEntry.join('') + ' ';
             anagram.output.value = anagram.rearranged;
+            anagram.count = -1
         }
         lettersLeft = null;
         dictionaryEntry = null;
+        if ( anagram.count > 15000 ) {
+            anagram.rearranged += anagram.letters.join('');
+            anagram.output.value = anagram.rearranged;
+            anagram.letters = [];
+        }
+        anagram.count += 1;
         if ( anagram.letters.length === 0 ) {
             clearInterval( window.timer );
             alert('anagram solved!');
