@@ -85,7 +85,7 @@ function rearrange () {
         dictionaryEntry = null;
         if ( anagram.count > 15000 ) {
             anagram.rearranged += anagram.letters.join('');
-            anagram.output.value = anagram.rearranged;
+            anagram.output.value = '(' + anagram.rearranged + ')';
             anagram.letters = [];
         }
         anagram.count += 1;
