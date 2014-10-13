@@ -72,6 +72,7 @@ function rearrange () {
     var dictionaryEntry, lettersLeft,
     anagram = new Anagram();
     anagram.count = 0;
+    anagram.el.value = anagram.letters;
     window.timer = setInterval( function () {
         dictionaryEntry = randomEntry( anagram.letters.length );
         lettersLeft = makeThisWord( dictionaryEntry, anagram.letters );
