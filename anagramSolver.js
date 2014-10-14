@@ -18,19 +18,6 @@ Array.prototype.crossOut = function ( usedLetter ) {
     return adjustedArray;
 };
 
-function randomEntry ( maxLength ) {
-    'use strict';
-    var random, entry, n;
-    for ( n = 0; n < 200; n++ ) {
-        random= Math.floor( Math.random() * window.realWords.length );
-        entry = window.realWords[random];
-        if ( entry.length <= maxLength ) {
-            return entry;
-        }
-    }
-    return 'a';
-}
-
 function Anagram () {
     'use strict';
     var el = document.getElementById( 'shuffle' ),
@@ -43,7 +30,20 @@ function Anagram () {
     };
 }
 
-function makeThisWord ( realWord, letters ) {
+Anagram.prototype.randomEntry = function ( maxLength ) {
+    'use strict';
+    var random, entry, n;
+    for ( n = 0; n < 200; n++ ) {
+        random= Math.floor( Math.random() * window.realWords.length );
+        entry = window.realWords[random];
+        if ( entry.length <= maxLength ) {
+            return entry;
+        }
+    }
+    return 'a';
+};
+
+Anagram.prototype.makeWord = function ( realWord, letters ) {
     // returns false if you can't make this word
     // out of the letters available
     // otherwise, returns array of the letters that remains
@@ -63,45 +63,49 @@ function makeThisWord ( realWord, letters ) {
         }
     }
     return false;
+};
+
+Anagram.prototype.solve = function () {
+    'use strict';
+    var dictionaryEntry, lettersLeft;
+    dictionaryEntry = this.randomEntry( this.letters.length );
+    lettersLeft = this.makeWord( dictionaryEntry, this.letters );
+    if ( !!lettersLeft ) {
+        this.letters = lettersLeft;
+        this.input.value = this.letters;
+        this.rearranged += dictionaryEntry.join('') + ' ';
+        this.output.value = this.rearranged;
+        this.count = -1;
+    }
+    lettersLeft = null;
+    dictionaryEntry = null;
+    if ( this.count > 15000 ) {
+        this.rearranged += '(' + this.letters.join('') + ')';
+        this.output.value = this.rearranged;
+        this.letters = [];
+    }
+    this.count += 1;
+    if ( this.letters.length === 0 ) {
+        clearInterval( window.timer );
+        alert( 'anagram solved! ');
+    }
 }
 
-function rearrange () {
+Anagram.prototype.initialize = function () {
     // TODO
     // repeat timer
     'use strict';
-    var dictionaryEntry, lettersLeft,
-    anagram = new Anagram();
+    var anagram = new Anagram();
     anagram.count = 0;
-    anagram.el.value = anagram.letters;
-    window.timer = setInterval( function () {
-        dictionaryEntry = randomEntry( anagram.letters.length );
-        lettersLeft = makeThisWord( dictionaryEntry, anagram.letters );
-        if ( !!lettersLeft ) {
-            anagram.letters = lettersLeft;
-            anagram.rearranged += dictionaryEntry.join('') + ' ';
-            anagram.output.value = anagram.rearranged;
-            anagram.count = -1
-        }
-        lettersLeft = null;
-        dictionaryEntry = null;
-        if ( anagram.count > 15000 ) {
-            anagram.rearranged += '(' + anagram.letters.join('') + ')';
-            anagram.output.value = anagram.rearranged;
-            anagram.letters = [];
-        }
-        anagram.count += 1;
-        if ( anagram.letters.length === 0 ) {
-            clearInterval( window.timer );
-            alert( 'anagram solved! ');
-        }
-    }, 5);
-}
+    anagram.input.value = anagram.letters;
+    window.timer = setInterval( solve, 5);
+};
 
 function reset () {
     'use strict';
     if ( window.timer ) clearInterval( window.timer );
     var el = document.getElementById( 'shuffle' );
-    el.value = 'Cry, foe!  Run amok!  Fa awry!  My wand won\'t tolerate this nonsense.';
+    el.value = "Cry, foe!  Run amok!  Fa awry!  My wand won\'t tolerate this nonsense.";
 }
 
 function clear () {
